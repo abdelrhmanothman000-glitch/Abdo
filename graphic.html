@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graphic Portfolio - Abdelrhman Othman</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link style="color:rgb(30, 126, 252);" rel="icon" type="image/svg+xml" href="images/bolt.svg">
+<style>
+
+  :root{
+    --bg:#0a0a0a;
+    --text:#fff;
+    --accent:#0586ff; /* أزرق فاتح متوهج */
+    --orange:#ffa600;
+  }
+  body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text);transition:0.3s;}
+  body.light{--bg:#f5f5f5;--text:#111;--accent:#0077ff;--orange:#ff9900;}
+
+  /* Header */
+  header{background:var(--bg); position:sticky;top:0;z-index:999;box-shadow:0 2px 5px rgba(0,0,0,0.3);}
+  nav.nav{display:flex;align-items:center;justify-content:space-between;padding:0.8rem 2rem;}
+  .logo{font-size:1.5rem;font-weight:700;display:flex;align-items:center;color:var(--accent);}
+  .logo i{margin-right:0.5rem;color:var(--accent);text-shadow:0 0 8px var(--accent);}
+  #navLinks{display:flex;gap:1rem;list-style:none;margin:0;padding:0;}
+  #navLinks li a{text-decoration:none;color:var(--text);padding:5px 8px;border-radius:5px;transition:0.3s;}
+  #navLinks li a:hover,#navLinks li a.active{background:var(--accent);color:#000;}
+  #mode-toggle{background:none;border:none;font-size:1.3rem;color:var(--accent);cursor:pointer;transition:0.3s;padding:5px;}
+
+  /* Responsive Header */
+  @media(max-width:768px){
+    #navLinks{display:none;flex-direction:column;position:absolute;top:60px;left:0;right:0;background:rgba(0,0,0,0.95);padding:10px 0;box-shadow:0 8px 20px rgba(0,0,0,0.3);}
+    #navLinks.show{display:flex;}
+    #navLinks li{margin:8px 0;text-align:center;}
+    #menu-toggle{display:block;}
+  }
+
+/* Dark/Light Mode Toggle شفاف */
+  #mode-toggle{
+    background:none;
+    border:none;
+    font-size:1.3rem;
+    cursor:pointer;
+    color:var(--accent);
+    padding:5px;
+    transition:0.3s;
+  }
+
+  /* Project title with text shadow for visibility */
+  .project-info h3{
+    margin:0;
+    color:#fff;
+    font-size:1.1rem;
+    text-shadow: 1px 1px 6px rgba(0,0,0,0.7);
+  }
+
+  body.light .project-info h3{
+    color:#111;
+    text-shadow: 1px 1px 6px rgba(255,255,255,0.5);
+  }
+
+  /* Hero */
+  .hero{text-align:center;padding:2rem;}
+  .hero h1{font-size:2rem;margin-bottom:0.5rem;}
+  .hero p{font-size:1rem;opacity:0.8;}
+
+  /* Projects Grid */
+  .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;padding:2rem;}
+  .project-card{box-shadow:0 8px 20px rgba(0, 0, 0, 0.151);background:rgba(255,255,255,0.05);border-radius:12px;overflow:hidden;cursor:pointer;transform:translateY(20px);opacity:0;transition:0.5s;}
+  .project-card img{width:100%;display:block;transition:0.3s;border-bottom:4px solid var(--orange);}
+  .project-card:hover img{transform:scale(1.05);}
+  .project-card:hover{box-shadow:0 8px 20px rgba(0,0,0,0.4);}
+  .project-info{padding:0.8rem;}
+  .project-info h3{margin:0;color:#fff;font-size:1.1rem;}
+  .project-info span{display:block;margin-top:4px;height:4px;width:40px;background:var(--orange);border-radius:2px;}
+
+  /* Fullscreen overlay */
+  .overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:none;justify-content:center;align-items:center;z-index:2000;}
+  .overlay-content{position:relative; max-width:90%; max-height:90%; display:flex; flex-direction:column; align-items:center; text-align:left; color:#fff;}
+  .overlay-content img{max-width:100%; max-height:70vh; border-radius:10px;}
+  .overlay-content h3{margin:0.5rem 0 0; color:#fff;}
+  .overlay-content span{height:4px;width:50px;background:var(--orange);display:block;margin-top:3px;border-radius:2px;}
+  .overlay-close{position:absolute;top:10px;right:10px;font-size:1.5rem;cursor:pointer;color:#fff;}
+
+  /* Footer */
+  footer{background:var(--bg); color:var(--text); text-align:center; padding:2rem 1rem; border-top:1px solid #333;}
+
+  /* Animate on scroll */
+  .show-card{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <nav class="nav container">
+      <div class="logo"><i class="fa-solid fa-bolt"></i> <a href="index.html" style="text-decoration: none;color: #ff9900;" >Abdelrhman Othman</a></div>
+      <ul id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#projects" class="active">Graphic</a></li>
+      </ul>
+      <button id="mode-toggle" title="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Graphic Design Portfolio</h1>
+    <p>Here are some of my top graphic projects. Click any image to view in full.</p>
+  </section>
+
+  <!-- Projects Grid -->
+  <section id="projects" class="projects-grid">
+    <div class="project-card"><img src="images/graphic/1.jpg" alt="Project"><div class="project-info"><h3>Logo Design for Tourism</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/2.jpg" alt="Project"><div class="project-info"><h3>Insecticide box cover design</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/3.jpg" alt="Project"><div class="project-info"><h3>Insecticide bag cover design</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/4.jpg" alt="Project"><div class="project-info"><h3>Professional identity design for a tourism company</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/5.jpg" alt="Project"><div class="project-info"><h3>Brand design for a university professor</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/6.jpg" alt="Project"><div class="project-info"><h3>Professional logo design for an internet browser</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/7.jpg" alt="Project"><div class="project-info"><h3>Professional logo design for a university professor</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/8.jpg" alt="Project"><div class="project-info"><h3>Professional logo design for an engineer</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/9.jpg" alt="Project"><div class="project-info"><h3>Social media design for Ramadan</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/10.jpg" alt="Project"><div class="project-info"><h3>Social media design for Ramadan</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/11.jpg" alt="Project"><div class="project-info"><h3>Social media design for Ramadan</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/12.jpg" alt="Project"><div class="project-info"><h3>Social media design for a decor company</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/13.jpg" alt="Project"><div class="project-info"><h3>Social media design for a decor company</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/14.jpg" alt="Project"><div class="project-info"><h3>Social media design for a decor company</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/15.jpg" alt="Project"><div class="project-info"><h3>Social media design for a decor company</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/16.jpg" alt="Project"><div class="project-info"><h3>Social media design for a decor company</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/17.jpg" alt="Project"><div class="project-info"><h3>Logo design for a decor company</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/18.jpg" alt="Project"><div class="project-info"><h3>Social media design for a maintenance center</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/19.jpg" alt="Project"><div class="project-info"><h3>Facebook cover design for a tourism company</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/20.jpg" alt="Project"><div class="project-info"><h3>Social media design for a tourism company</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/21.jpg" alt="Project"><div class="project-info"><h3>Logo design for a furniture company</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/22.jpg" alt="Project"><div class="project-info"><h3>Social media design for a tourism company</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/23.jpg" alt="Project"><div class="project-info"><h3>Facebook cover design for a furniture company</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/24.jpg" alt="Project"><div class="project-info"><h3>Facebook cover design for a furniture company</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/25.png" alt="Project"><div class="project-info"><h3>info</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/26.png" alt="Project"><div class="project-info"><h3>info</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/27.png" alt="Project"><div class="project-info"><h3>info</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/28.png" alt="Project"><div class="project-info"><h3>info</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/29.png" alt="Project"><div class="project-info"><h3>info</h3><span></span></div></div>
+    <div class="project-card"><img src="images/graphic/30.png" alt="Project"><div class="project-info"><h3>info</h3><span></span></div></div>
+
+
+  <!-- Fullscreen Overlay -->
+  <div class="overlay" id="overlay">
+    <div class="overlay-content">
+      <span class="overlay-close" id="overlayClose"><i class="fa-solid fa-xmark"></i></span>
+      <img id="overlayImg" src="" alt="">
+      <h3 id="overlayTitle"></h3>
+      <span></span>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Abdelrhman Othman — abdelrhmanothman000@gmail.com</p>
+  </footer>
+
+  <script>
+    // Dark/Light Mode Toggle
+    const modeBtn = document.getElementById('mode-toggle');
+    const body = document.body;
+    modeBtn.addEventListener('click', ()=>{
+      body.classList.toggle('light');
+      modeBtn.innerHTML = body.classList.contains('light') ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+    });
+
+    // Animate cards on scroll
+    const cards = document.querySelectorAll('.project-card');
+    const obs = new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting) entry.target.classList.add('show-card');
+      });
+    }, {threshold:0.2});
+    cards.forEach(c=>obs.observe(c));
+
+    // Fullscreen overlay
+    const overlay = document.getElementById('overlay');
+    const overlayImg = document.getElementById('overlayImg');
+    const overlayTitle = document.getElementById('overlayTitle');
+    const overlayClose = document.getElementById('overlayClose');
+
+    cards.forEach(card=>{
+      card.addEventListener('click', ()=>{
+        overlay.style.display='flex';
+        overlayImg.src = card.querySelector('img').src;
+        overlayTitle.textContent = card.querySelector('h3').textContent;
+      });
+    });
+    overlayClose.addEventListener('click', ()=> overlay.style.display='none');
+    overlay.addEventListener('click', (e)=>{if(e.target===overlay) overlay.style.display='none';});
+  </script>
+</body>
+</html>
