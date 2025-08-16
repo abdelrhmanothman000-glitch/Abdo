@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Abdelrhman Othman | Portfolio</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome (icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* =========================
+       Root & Reset
+    ==========================*/
+    :root{
+      --primary:#4f46e5;   /* blue-violet */
+      --accent:#9b5cf7;    /* lighter purple */
+      --pink:#00ff73;      /* neon pink for glow layer */
+      --yellow:#ffbb00;    /* highlight */
+      --bg-dark:#0f0f14;   /* site body dark */
+      --card-dark:#151521;
+      --text:#dfdff1;
+      --muted:rgb(175, 114, 255);
+      --outline:rgba(255,255,255,.1);
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --radius:18px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{scroll-behavior:smooth}
+    body{
+      font-family:'Tajawal',sans-serif;
+      background:var(--bg-dark);
+      color:var(--text);
+      line-height:1.7;
+    }
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+    section{padding:90px 7%}
+    .container{max-width:1200px;margin:0 auto}
+
+    
+
+    /* =========================
+       Header (fixed, always dark)
+    ==========================*/
+    header{
+      position:sticky; top:0; z-index:999;
+      background:rgba(10,10,15,.85);
+      backdrop-filter:saturate(150%) blur(10px);
+      box-shadow:0 1px 0 var(--outline);
+    }
+    .nav{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:16px 7%;
+    }
+    .logo{
+      font-weight:800; letter-spacing:.3px;
+      color:#fff;
+      display:flex; gap:10px; align-items:center;
+    }
+    .logo i{color:var(--accent)}
+    .nav ul{display:flex;gap:22px;list-style:none}
+    .nav a{
+      color:#ddd; font-weight:600; position:relative; padding:6px 0;
+      transition:.25s;
+    }
+    .nav a:hover{color:#fff}
+    .nav a.active::after,
+    .nav a:hover::after{
+      content:""; position:absolute; left:0; bottom:-6px; height:2px; width:100%;
+      background:linear-gradient(90deg,#fbff00,#fbff00);
+      border-radius:2px;
+    
+    }
+    #mode-toggle{
+      background:transparent; border:none; color:#fff; font-size:1.25rem;
+      cursor:pointer; padding:8px; border-radius:50%;
+      transition:transform .2s, filter .2s;
+    }
+    #mode-toggle:hover{transform:rotate(-12deg); filter:drop-shadow(0 0 4px var(--accent))}
+
+    /* =========================
+       Hero
+    ==========================*/
+    .hero{
+      min-height:82vh; display:grid; align-items:center;
+      grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:40px;
+      background:
+        radial-gradient(1200px 400px at 90% 10%, rgba(155,92,247,.15), transparent 60%),
+        radial-gradient(900px 300px at 10% 90%, rgba(79,70,229,.15), transparent 60%);
+    }
+    .hero h1{
+      font-size:clamp(2rem,4vw,3rem); font-weight:800;
+    }
+    .hero h1 .hl{color:var(--yellow); text-shadow:0 0 12px rgba(250,204,21,.55)}
+    .lead{color:var(--muted); margin:14px 0 22px; font-size:1.1rem}
+    .hero .actions{display:flex; flex-wrap:wrap; gap:14px}
+    .btn{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:12px 20px; border-radius:999px; font-weight:800;
+      border:2px solid transparent; transition:.25s; cursor:pointer;
+    }
+    .btn.primary{background:linear-gradient(90deg,var(--primary),var(--accent)); color:#fff; box-shadow:0 8px 24px rgba(155,92,247,.35)}
+    .btn.primary:hover{transform:translateY(-2px)}
+    .btn.ghost{background:transparent; color:var(--accent); border-color:var(--accent)}
+    .btn.ghost:hover{background:rgba(155,92,247,.1)}
+    .avatar{
+      width:290px; height:290px; margin:auto; border-radius:50%;
+      border:5px solid var(--accent);
+      box-shadow:0 0 25px rgba(155,92,247,.6), inset 0 0 40px rgba(79,70,229,.2);
+      transition:.35s;
+    }
+    .avatar:hover{transform:scale(1.03); box-shadow:0 0 30px rgba(250,204,21,.6), 0 0 20px rgba(155,92,247,.6)}
+
+    /* =========================
+       Cards / grids
+    ==========================*/
+    .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:22px}
+    .card{
+      background:var(--card-dark); border:1px solid var(--outline);
+      border-radius:var(--radius); padding:18px; padding-left: 25px; box-shadow:var(--shadow);
+      transition:transform .25s, box-shadow .25s, border-color .25s;
+    }
+    .card:hover{
+      transform:translateY(-6px);
+      box-shadow:0 20px 50px rgba(155,92,247,.15);
+      border-color:rgba(155,92,247,.5);
+    }
+    .card h3{color:#fff; margin-bottom:8px}
+    .muted{color:var(--muted)}
+
+    /* =========================
+       About
+    ==========================*/
+    .about .points{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-top:18px}
+    .about .point{display:flex; gap:12px; align-items:flex-start}
+    .about .point i{color:var(--yellow); font-size:1.1rem; margin-top:3px}
+
+    /* =========================
+       Skills & Tools
+    ==========================*/
+    .skills .icon{font-size:1.7rem; color:var(--yellow)}
+    .skill-name{font-weight:800}
+    .tools-badges{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px}
+    .badge{
+      padding:8px 12px; border-radius:12px; font-weight:800; font-size:.92rem;
+      border:1px solid var(--outline);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.15));
+    }
+    /* Adobe brand-like colors */
+    .ps{background:#001e36; color:#31a8ff}
+    .ai{background:#261300; color:#ff9a00}
+    .id{background:#2d0014; color:#ff3366}
+    .lr{background:#001e36; color:#31a8ff}
+    .xd{background:#2e001f; color:#ff61f6}
+    .au{background:#1d2226; color:#00e5ff}
+    .pr{background:#0e0120; color:#9999ff}
+    .ae{background:#0e0120; color:#b388ff}
+    .dw{background:#002a00; color:#84f088}
+    .me{background:#1b2638; color:#ffafcc}
+
+    /* =========================
+       Stats (Dual-layer circular progress)
+    ==========================*/
+    .stats-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:26px}
+    .stat{
+      display:grid; place-items:center; padding:12px; border-radius:16px;
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.25));
+      border:1px solid var(--outline);
+    }
+    .ring{
+      position:relative; width:160px; height:160px;
+      filter:drop-shadow(0 0 10px rgba(255, 255, 255, 0.068));
+    }
+    .ring svg{width:160px; height:160px; transform:rotate(-90deg)}
+    .track{stroke:rgba(0, 119, 255, 0.12); stroke-width:14; fill:none}
+    .trail{ /* pink glow pre-layer */
+      stroke:var(--pink); stroke-width:14; fill:none; stroke-linecap:round;
+      opacity:.55; filter:drop-shadow(0 0 10px rgba(255,102,204,.75));
+      stroke-dasharray:0 999; stroke-dashoffset:0;
+      transition:stroke-dashoffset .6s ease;
+    }
+    .bar{
+      stroke:#fff; stroke-width:16; fill:none; stroke-linecap:round;
+      filter:drop-shadow(0 0 8px #fff);
+      stroke-dasharray:0 999; stroke-dashoffset:0;
+      transition:stroke-dashoffset .6s ease;
+    }
+    body.light .bar{stroke:#053cf1; filter:drop-shadow(0 0 8px #3103ff)}
+    .ring .center-icon{
+      position:absolute; inset:0; display:grid; place-items:center;
+      font-size:1.5rem; color:var(--yellow);
+    }
+    .stat .value{font-weight:900; font-size:1.4rem; margin-top:10px}
+    .stat .label{color:var(--muted); font-weight:700}
+
+    .stat:hover .ring{filter:drop-shadow(0 0 14px rgba(250,204,21,.35))}
+
+    /* =========================
+       Projects
+    ==========================*/
+    .project-thumb{
+      aspect-ratio:16/10; background:#0b0b12; border-radius:12px; overflow:hidden;
+      border:1px solid var(--outline); margin-bottom:12px;
+    }
+    .project-thumb img{width:100%; height:100%; object-fit:cover; transition:transform .35s}
+    .card:hover .project-thumb img{transform:scale(1.05)}
+    .tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px}
+    .tag{font-size:.8rem; padding:6px 10px; border-radius:999px; border:1px solid var(--outline); color:#0285ff}
+
+    /* =========================
+       Services
+    ==========================*/
+    .service .icon{font-size:1.8rem; color:var(--accent)}
+    .order{
+      margin-top:12px;
+      display:inline-flex; gap:8px; align-items:center;
+      padding:10px 14px; border-radius:999px; border:2px solid #25d366; color:#25d366;
+      transition:.25s;
+    }
+    .order:hover{background:#25d366; color:#000}
+
+    /* =========================
+       Timeline
+    ==========================*/
+    .timeline{
+      border-left:3px solid rgba(155,92,247,.45);
+      margin-left:12px; padding-left:22px;
+    }
+    .t-item{margin:22px 0}
+    .t-item h4{color:#ff8800}
+    .t-item span{color:var(--muted); font-weight:700; font-size:.95rem}
+
+    /* =========================
+       Testimonials
+    ==========================*/
+    .testi{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px}
+    .bubble{
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.2));
+      border:1px solid var(--outline); border-radius:16px; padding:16px;
+    }
+    .bubble i{color:var(--yellow)}
+    .bubble h5{margin-top:8px}
+
+    /* =========================
+       Contact
+    ==========================*/
+    .contact-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px}
+    .input, .textarea{
+      width:100%; padding:12px 14px; border-radius:12px; border:1px solid var(--outline);
+      background:#0f0f18; color:#fff; outline:none;
+    }
+    .textarea{min-height:120px; resize:vertical}
+    .submit{margin-top:8px}
+    .submit .btn.primary{border:0}
+
+    /* =========================
+       Footer (always dark)
+    ==========================*/
+    footer{
+      background:#0b0b12; color:#cfcfe6; padding:60px 7% 30px; border-top:1px solid var(--outline);
+    }
+    .fgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:26px}
+    footer h4{color:#fff; margin-bottom:10px}
+    .social{display:flex; gap:12px; margin-top:10px}
+    .social a{width:36px; height:36px; display:grid; place-items:center; border-radius:50%;
+      background:#111422; border:1px solid var(--outline); color:#ddd; transition:.25s}
+    .social a:hover{color:#fff; border-color:rgba(155,92,247,.6)}
+    .copyright{margin-top:26px; text-align:center; color:#9a9ab3}
+
+    /* =========================
+       Light Mode (body only)
+    ==========================*/
+    body.light{
+      background:#f6f7fb; color:#0a0a0e;
+    }
+    body.light .card,
+    body.light .bubble,
+    body.light .stat{background:#ffffff; border-color:#e7e8ee}
+    body.light .muted{color:#242324}
+    body.light .project-thumb{background:#f0f2f8; border-color:#e7e8ee}
+    body.light .input, body.light .textarea{background:#fff; color:#0a0a0e; border-color:#e7e8ee}
+    /* header & footer intentionally NOT affected */
+  </style>
+</head>
+<body>
+
+  <!-- =========================
+       Header
+  ==========================-->
+  <header>
+    <nav class="nav container">
+      <div class="logo"><i class="fa-solid fa-bolt"></i> Abdelrhman Othman</div>
+      <ul id="navLinks">
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills & Tools</a></li>
+        <li><a href="#stats">Stats</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#timeline">Journey</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button id="mode-toggle" title="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+  </header>
+<!-- =========================
+     CSS الهيدر الريسبونسيف
+========================== -->
+<style>
+  /* زر الهامبرغر مخفي على الشاشات الكبيرة */
+  #menu-toggle { 
+    display: none; 
+    background: none; 
+    border: none; 
+    font-size: 1.5rem; 
+    color: rgb(98, 210, 255); 
+    cursor: pointer; 
+  }
+
+  /* responsive nav على الشاشات الصغيرة */
+  @media (max-width: 768px) {
+    nav.nav { position: relative; }
+
+    #navLinks {
+      display: none; /* اخفاء القائمة افتراضيًا */
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: rgba(0,0,0,0.95); /* خلفية داكنة معزولة */
+      padding: 10px 0;
+      z-index: 999;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    #navLinks.show { display: flex; }
+
+    #navLinks li { margin: 10px 0; text-align: center; }
+
+    /* اظهار زر الهامبرغر */
+    #menu-toggle { display: block; }
+  }
+</style>
+
+<!-- =========================
+     JS الهيدر الريسبونسيف
+========================== -->
+<script>
+  // فقط إذا لم يكن موجودًا مسبقًا
+  if(!document.getElementById('menu-toggle')){
+    const menuBtn = document.createElement('button');
+    menuBtn.id = 'menu-toggle';
+    menuBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
+    document.querySelector('nav.nav').insertBefore(menuBtn, document.getElementById('navLinks'));
+
+    const navLinks = document.getElementById('navLinks');
+    menuBtn.addEventListener('click', () => navLinks.classList.toggle('show'));
+
+    // اغلاق القائمة عند الضغط على أي رابط
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => navLinks.classList.remove('show'));
+    });
+  }
+</script>
+
+  <!-- =========================
+       Hero
+  ==========================-->
+  <section id="home" class="hero container">
+    <div>
+      <h1>Hi, I'm <span class="hl">Abdelrhman Othman</span></h1>
+      <p class="lead">Web Developer • Windows Apps • Graphic & Motion Designer • 3D Artist • Branding • Social Media • IT & CCTV</p>
+      <div class="actions">
+        <a class="btn primary" href="#projects"><i class="fa-solid fa-briefcase"></i> View My Work</a>
+        <a class="btn ghost" href="https://wa.me/201001104262?text=Hi%20Abdelrhman!%20I%20want%20to%20work%20with%20you" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+      </div>
+    </div>
+    <!-- استبدل الصورة التالية بصورتك: ضَع ملفك داخل images/profile.jpg -->
+    <img class="avatar" src="images/2.jpg" alt="Abdelrhman Othman">
+  </section>
+
+  <!-- =========================
+       About
+  ==========================-->
+  <section id="about" class="container">
+    <div class="grid">
+      <div class="card">
+        <h2 style="margin-bottom:6px;color:#fff">About Me</h2>
+        <p class="muted">I'm Abdelrhman Othman — a multi-disciplinary creator who blends <span style="color:var(--yellow);font-weight:800">code</span> & <span style="color:var(--accent);font-weight:800">design</span> to build impactful digital experiences.</p>
+        <div class="points">
+          <div class="point"><i class="fa-solid fa-code"></i><div>Websites & Windows apps with clean, scalable code.</div></div>
+          <div class="point"><i class="fa-solid fa-wand-magic-sparkles"></i><div>Graphic design, motion graphics, 3D & VFX with brand-first thinking.</div></div>
+          <div class="point"><i class="fa-solid fa-bullhorn"></i><div>Social media management, content, paid ads & growth.</div></div>
+          <div class="point"><i class="fa-solid fa-shield-halved"></i><div>IT support, PC upgrades and multi-type CCTV installation.</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Quick Facts</h3>
+        <ul style="margin-top:10px; color:#ffae00">
+          <li>📍 Cairo, Egypt</li>
+          <li>🎓 Faculty of Technology – Computers & Graphics (Mataria)</li>
+          <li>🧰 Full-stack + Adobe + 3D + Sound</li>
+          <li>🤝 800+ happy clients</li>
+        </ul>
+        <div class="tools-badges" style="margin-top:14px">
+          <span class="badge">English / Arabic</span>
+          <span class="badge">Remote & On-site</span>
+          <span class="badge">Available for Freelance</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       Skills & Tools
+  ==========================-->
+  <section id="skills" class="container">
+    <h2 style="margin-bottom:18px">Skills & Tools</h2>
+    <div class="grid">
+      <div class="card">
+        <h3><i class="fa-solid fa-laptop-code icon"></i> Coding</h3>
+        <p class="muted">Front-end & Back-end</p>
+        <div class="tools-badges">
+          <span class="badge">HTML5</span>
+          <span class="badge">CSS3</span>
+          <span class="badge">JavaScript</span>
+          <span class="badge">TypeScript</span>
+          <span class="badge">React</span>
+          <span class="badge">Node.js</span>
+          <span class="badge">PHP</span>
+          <span class="badge">Python</span>
+          <span class="badge">MySQL / SQL</span>
+          <span class="badge">REST APIs</span>
+          <span class="badge">Git</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3><i class="fa-solid fa-palette icon"></i> Adobe & Creative</h3>
+        <p class="muted">Design • Motion • VFX • Audio</p>
+        <div class="tools-badges">
+          <span class="badge ps">Photoshop</span>
+          <span class="badge ai">Illustrator</span>
+          <span class="badge id">InDesign</span>
+          <span class="badge lr">Lightroom</span>
+          <span class="badge xd">XD</span>
+          <span class="badge au">Audition</span>
+          <span class="badge pr">Premiere Pro</span>
+          <span class="badge ae">After Effects</span>
+          <span class="badge me">Media Encoder</span>
+          <span class="badge">DaVinci Resolve</span>
+          <span class="badge">FL Studio</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3><i class="fa-solid fa-cubes icon"></i> 3D & Others</h3>
+        <p class="muted">Modeling • Rendering • IT</p>
+        <div class="tools-badges">
+          <span class="badge">Blender</span>
+          <span class="badge">Cinema 4D</span>
+          <span class="badge">MS Office</span>
+          <span class="badge">PC Builds</span>
+          <span class="badge">CCTV (Analog/IP)</span>
+          <span class="badge">Networking</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       Stats (dual ring)
+  ==========================-->
+  <section id="stats" class="container">
+    <h2 style="margin-bottom:18px">Some Numbers</h2>
+    <div class="stats-grid">
+      <!-- Stat item -->
+      <div class="stat" data-value="1498" data-label="Projects" data-progress="95" data-icon="fa-code"></div>
+      <div class="stat" data-value="800" data-label="Clients" data-progress="88" data-icon="fa-users"></div>
+      <div class="stat" data-value="17" data-label="Awards" data-progress="70" data-icon="fa-award"></div>
+      <div class="stat" data-value="8" data-label="Years Exp." data-progress="85" data-icon="fa-briefcase"></div>
+      <div class="stat" data-value="98%" data-label="Uptime" data-progress="94" data-icon="fa-gauge-high"></div>
+      <div class="stat" data-value="24/7" data-label="Support" data-progress="95" data-icon="fa-headset"></div>
+    </div>
+  </section>
+
+  <!-- =========================
+       Projects
+  ==========================-->
+  <section id="projects" class="container">
+    <h2 style="margin-bottom:18px">Recent Projects</h2>
+    <div class="grid">
+      <div class="card">
+        <div class="project-thumb">
+          <!-- استبدل src بصور مشاريعك -->
+          <img src="images/p-1.png" alt="Dashboard UI">
+        </div>
+        <h3>Business Dashboard</h3>
+        <p class="muted">Responsive web app dashboard with charts & analytics.</p>
+        <div class="tags">
+          <span class="tag">React</span><span class="tag">API</span><span class="tag">UI/UX</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="project-thumb">
+          <img src="images/p-2.webp" alt="Branding">
+        </div>
+        <h3>Brand Identity</h3>
+        <p class="muted">Logo, color system, and social media kit.</p>
+        <div class="tags">
+          <span class="tag">Branding</span><span class="tag">Illustrator</span><span class="tag">Photoshop</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="project-thumb">
+          <img src="images/p-4.jpg" alt="Website">
+        </div>
+        <h3>Company Website</h3>
+        <p class="muted">Modern, fast, and SEO-friendly website.</p>
+        <div class="tags">
+          <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       Services (WhatsApp orders)
+  ==========================-->
+  <section id="services" class="container">
+    <h2 style="margin-bottom:18px">Services</h2>
+    <div class="grid">
+      <div class="card service">
+        <h3><i class="fa-solid fa-code icon"></i> Web Development</h3>
+        <p class="muted">Business websites, landing pages, and web apps.</p>
+        <a class="order" target="_blank" rel="noopener"
+           href="https://wa.me/201001104262?text=Hi%20Abdelrhman,%20I%20want%20a%20Website/Landing%20Page."><i class="fa-brands fa-whatsapp"></i> Order on WhatsApp</a>
+      </div>
+      <div class="card service">
+        <h3><i class="fa-solid fa-wand-magic-sparkles icon"></i> Branding & Design</h3>
+        <p class="muted">Logos, visual identity, social media packages.</p>
+        <a class="order" target="_blank" rel="noopener"
+           href="https://wa.me/201001104262?text=Hi%20Abdelrhman,%20I%20need%20Branding%20and%20Social%20Media%20Designs."><i class="fa-brands fa-whatsapp"></i> Order on WhatsApp</a>
+      </div>
+      <div class="card service">
+        <h3><i class="fa-solid fa-video icon"></i> Motion & Editing</h3>
+        <p class="muted">Motion graphics, promos, and product videos.</p>
+        <a class="order" target="_blank" rel="noopener"
+           href="https://wa.me/201001104262?text=Hi%20Abdelrhman,%20I%20need%20Motion%20Graphics/Video%20Editing."><i class="fa-brands fa-whatsapp"></i> Order on WhatsApp</a>
+      </div>
+      <div class="card service">
+        <h3><i class="fa-solid fa-shield-halved icon"></i> IT & CCTV</h3>
+        <p class="muted">PC maintenance, upgrades, networking & CCTV (Analog/IP).</p>
+        <a class="order" target="_blank" rel="noopener"
+           href="https://wa.me/201001104262?text=Hi%20Abdelrhman,%20I%20need%20IT%20Support%20/%20CCTV%20installation."><i class="fa-brands fa-whatsapp"></i> Order on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       Journey (Timeline)
+  ==========================-->
+  <section id="timeline" class="container">
+    <h2 style="margin-bottom:18px">My Journey</h2>
+    <div class="timeline">
+      <div class="t-item">
+        <h4>Faculty of Technology — Computers & Graphics</h4>
+        <span>2019–2023</span>
+        <p class="muted">Graduated with strong foundations in development & visual design.</p>
+      </div>
+      <div class="t-item">
+        <h4>Freelance Developer & Designer</h4>
+        <span>2020–Present</span>
+        <p class="muted">Delivering websites, apps, and creative assets for businesses.</p>
+      </div>
+      <div class="t-item">
+        <h4>Building My Digital Studio</h4>
+        <span>2024 →</span>
+        <p class="muted">Scaling services and leading multidisciplinary projects.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       Testimonials
+  ==========================-->
+  <section id="testimonials" class="container">
+    <h2 style="margin-bottom:18px">Testimonials</h2>
+    <div class="testi">
+      <div class="bubble">
+        <i class="fa-solid fa-quote-left"></i>
+        <p>“Abdelrhman delivered our project with exceptional quality and speed.”</p>
+        <h5>— Ahmed K., Business Owner</h5>
+      </div>
+      <div class="bubble">
+        <i class="fa-solid fa-quote-left"></i>
+        <p>“Creative, reliable, and always exceeds expectations.”</p>
+        <h5>— Sarah M., Marketing Manager</h5>
+      </div>
+      <div class="bubble">
+        <i class="fa-solid fa-quote-left"></i>
+        <p>“His designs boosted our brand recognition dramatically!”</p>
+        <h5>— Tamer F., Startup Founder</h5>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       Contact
+  ==========================-->
+  <section id="contact" class="container">
+    <h2 style="margin-bottom:18px">Contact</h2>
+    <div class="contact-grid">
+      <div class="card">
+        <h3>Say Hello</h3>
+        <p class="muted">Phone (WhatsApp & Calls): <strong>01001104262</strong><br>
+          WhatsApp only: <strong>01023891741</strong><br>
+          Email: <strong>abdelrhman@example.com</strong></p>
+        <div class="social">
+          <a href="https://wa.me/201001104262" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Behance"><i class="fa-brands fa-behance"></i></a>
+          <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Quick Message</h3>
+        <!-- عند الإرسال يفتح واتساب برسالة مُهيّأة -->
+        <form id="wForm">
+          <input class="input" type="text" id="name" placeholder="Your name" required>
+          <input class="input" type="email" id="email" placeholder="Email (optional)">
+          <input class="input" type="text" id="service" placeholder="Service you need (e.g., Website, Branding)" required>
+          <textarea class="textarea" id="details" placeholder="Tell me more..."></textarea>
+          <div class="submit">
+            <button class="btn primary" type="submit"><i class="fa-brands fa-whatsapp"></i> Send on WhatsApp</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       Footer (rich)
+  ==========================-->
+  <footer>
+    <div class="fgrid container">
+      <div>
+        <h4>About</h4>
+        <p>Versatile developer & creative professional delivering modern websites, motion graphics, and IT solutions.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li>Web & Windows Apps</li>
+          <li>Branding & Social Media</li>
+          <li>Motion Graphics & VFX</li>
+          <li>IT Support & CCTV</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li>📞 01001104262 (WhatsApp & Calls)</li>
+          <li>📞 01023891741 (WhatsApp only)</li>
+          <li>✉️ abdelrhmanothman000@gmail.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="container copyright">© 2025 Abdelrhman Othman — All Rights Reserved.</div>
+  </footer>
+
+  <script>
+    /* =========================
+       Theme Toggle (header/footer unaffected)
+    ==========================*/
+    const modeBtn = document.getElementById('mode-toggle');
+    const body = document.body;
+    const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+    if(prefersLight) body.classList.add('light');
+    modeBtn.addEventListener('click', ()=>{
+      body.classList.toggle('light');
+      modeBtn.innerHTML = body.classList.contains('light')
+        ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+    });
+
+    /* =========================
+       Active nav on scroll
+    ==========================*/
+    const sections = [...document.querySelectorAll('section[id]')];
+    const navLinks = [...document.querySelectorAll('#navLinks a')];
+    const setActive = ()=>{
+      let y = window.scrollY + 110;
+      let current = sections.findLast(s => s.offsetTop <= y);
+      if(!current) return;
+      navLinks.forEach(a=>a.classList.remove('active'));
+      const link = navLinks.find(a=>a.getAttribute('href') === '#'+current.id);
+      if(link) link.classList.add('active');
+    };
+    window.addEventListener('scroll', setActive); setActive();
+
+    /* =========================
+       Build Stats Rings & Animate on view
+    ==========================*/
+    const buildStat = (el)=>{
+      const val = el.dataset.value;
+      const label = el.dataset.label;
+      const progress = parseInt(el.dataset.progress,10) || 80;
+      const icon = el.dataset.icon || 'fa-star';
+
+      el.innerHTML = `
+        <div class="ring">
+          <svg viewBox="0 0 160 160" aria-hidden="true">
+            <circle class="track" cx="80" cy="80" r="60"></circle>
+            <circle class="trail" cx="80" cy="80" r="60"></circle>
+            <circle class="bar"   cx="80" cy="80" r="60"></circle>
+          </svg>
+          <div class="center-icon"><i class="fa-solid ${icon}"></i></div>
+        </div>
+        <div class="value">0</div>
+        <div class="label">${label}</div>
+      `;
+      const r=60, circ = 2*Math.PI*r;
+      const trail = el.querySelector('.trail');
+      const bar = el.querySelector('.bar');
+      [trail,bar].forEach(c=>{
+        c.style.strokeDasharray = `${circ} ${circ}`;
+        c.style.strokeDashoffset = `${circ}`;
+      });
+      el._anim = {circ, progress, val};
+    };
+    document.querySelectorAll('.stat').forEach(buildStat);
+
+    const statObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting) return;
+        const el = entry.target;
+        const {circ, progress, val} = el._anim;
+        const trail = el.querySelector('.trail');
+        const bar = el.querySelector('.bar');
+        const value = el.querySelector('.value');
+
+        // animate numbers and arcs (slightly slow for delight)
+        let start = 0;
+        const target = val.toString().includes('/') ? val : parseInt(val,10);
+        const maxFrames = 90; // ~1.5s
+        let frame = 0;
+
+        const pOffset = circ * (1 - progress/100);
+        const tOffset = circ * (1 - Math.min(progress+8,100)/100); // pink trail a bit ahead
+
+        const tick = ()=>{
+          frame++;
+          const k = frame/maxFrames;
+          const ease = 1 - Math.pow(1-k, 3); // easeOutCubic
+          const current = typeof target === 'number' ? Math.round(target*ease) : val;
+          value.textContent = current + (val.toString().includes('%') && typeof target==='number' ? '%' : '');
+          bar.style.strokeDashoffset = String(circ - (circ - pOffset)*ease);
+          trail.style.strokeDashoffset = String(circ - (circ - tOffset)*ease);
+          if(frame < maxFrames) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+        statObserver.unobserve(el);
+      });
+    }, {threshold:0.55});
+    document.querySelectorAll('.stat').forEach(s=>statObserver.observe(s));
+
+    /* =========================
+       Contact form -> WhatsApp
+    ==========================*/
+    const form = document.getElementById('wForm');
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const name = encodeURIComponent(document.getElementById('name').value.trim());
+      const email = encodeURIComponent(document.getElementById('email').value.trim());
+      const service = encodeURIComponent(document.getElementById('service').value.trim());
+      const details = encodeURIComponent(document.getElementById('details').value.trim());
+      const msg = `Hi Abdelrhman, I'm ${name}%0AService: ${service}%0AEmail: ${email}%0ADetails: ${details}`;
+      window.open(`https://wa.me/201001104262?text=${msg}`, '_blank');
+    });
+
+    /* =========================
+       Helper: smooth anchor on hash change (mobile copy/paste)
+    ==========================*/
+    window.addEventListener('hashchange', ()=>{
+      const target = document.querySelector(location.hash);
+      if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  </script>
+</body>
+</html>
