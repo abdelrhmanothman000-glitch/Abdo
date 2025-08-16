@@ -285,95 +285,7 @@
     body.light .input, body.light .textarea{background:#fff; color:#0a0a0e; border-color:#e7e8ee}
     /* header & footer intentionally NOT affected */
   </style>
-   <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: #0d0d0d;
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-
-    .btn-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .work-btn {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: #fff;
-      font-size: 1.1rem;
-      padding: 14px 28px;
-      border: 2px solid #4db8ff;
-      border-radius: 50px;
-      background: rgba(0, 0, 0, 0.4);
-      transition: 0.35s ease;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 0 12px rgba(77,184,255,0.4);
-    }
-
-    .work-btn i {
-      font-size: 1.2rem;
-      transition: transform 0.3s ease;
-    }
-
-    .work-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: #4db8ff;
-      z-index: -1;
-      transition: left 0.4s ease;
-    }
-
-    .work-btn:hover::before {
-      left: 0;
-    }
-
-    .work-btn:hover {
-      color: #111;
-      font-weight: bold;
-      box-shadow: 0 0 18px rgba(77,184,255,0.7);
-      transform: translateY(-3px);
-    }
-
-    .work-btn:hover i {
-      transform: scale(1.2);
-    }
-
-    /* Responsive design */
-    @media (max-width: 768px) {
-      .work-btn {
-        font-size: 1rem;
-        padding: 12px 22px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .btn-container {
-        flex-direction: column;
-        gap: 15px;
-      }
-      .work-btn {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-  </style>
+   
 </head>
 </head>
 <body>
@@ -929,6 +841,7 @@
   </script>
 </body>
 </html>
+
 
 
 
