@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Abdelrhman Othman — VFX Portfolio</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet" />
+  <!-- Font Awesome for lightning icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    :root{
+      --bg: #0a0f1e;
+      --card: #0f172a;
+      --txt: #e2e8f0;
+      --muted: #94a3b8;
+      --yellow: #ffd52e;
+      --blue: #2ee9ff;
+      --border: rgba(255,255,255,0.08);
+      --ring: rgba(46,233,255,0.25);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background: radial-gradient(1000px 600px at 10% 10%, rgba(46,233,255,0.12), transparent 40%),
+                                      radial-gradient(800px 500px at 90% 20%, rgba(255,213,46,0.10), transparent 45%),
+                                      radial-gradient(700px 700px at 50% 100%, rgba(46,233,255,0.08), transparent 50%),
+                                      var(--bg);
+      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--txt);
+      overflow-x:hidden;
+    }
+
+    /* Neon glow helpers */
+    .neon{
+      text-shadow:
+        0 0 8px rgba(255,213,46,0.8),
+        0 0 16px rgba(255,213,46,0.6),
+        0 0 28px rgba(46,233,255,0.45),
+        0 0 48px rgba(46,233,255,0.25);
+    }
+    .blue-glow{ box-shadow: 0 0 0 1px var(--border), 0 0 22px 2px rgba(46,233,255,0.12), inset 0 0 30px rgba(46,233,255,0.06); }
+    .yellow-glow{ box-shadow: 0 0 0 1px var(--border), 0 0 24px 3px rgba(255,213,46,0.12), inset 0 0 30px rgba(255,213,46,0.08); }
+
+    header{
+      position:sticky; top:0; z-index:10; backdrop-filter: blur(8px);
+      background: linear-gradient(180deg, rgba(10,15,30,0.75), rgba(10,15,30,0.25));
+      border-bottom: 1px solid var(--border);
+    }
+    .container{max-width:1200px; margin:0 auto; padding:18px 18px;}
+
+    .brand{
+      display:flex; align-items:center; gap:14px; user-select:none;
+    }
+    .brand i{
+      font-size: 28px; color: var(--yellow);
+      filter: drop-shadow(0 0 8px rgba(255,213,46,0.9)) drop-shadow(0 0 18px rgba(46,233,255,0.6));
+      animation: pulse 2.2s ease-in-out infinite, spinBlink 7s linear infinite;
+    }
+    .brand h1{
+      margin:0; font-family:'Orbitron', sans-serif; font-weight:700; letter-spacing:1px; font-size: clamp(20px, 4vw, 34px);
+      background: linear-gradient(90deg, var(--yellow), var(--blue));
+      -webkit-background-clip: text; background-clip:text; color: transparent;
+      text-shadow: 0 0 24px rgba(46,233,255,0.25);
+    }
+    @keyframes pulse{ 0%,100%{ transform: scale(1); } 50%{ transform: scale(1.12); } }
+    @keyframes spinBlink{ 0%{ filter: drop-shadow(0 0 8px rgba(255,213,46,1)); } 50%{ filter: drop-shadow(0 0 14px rgba(46,233,255,0.9)); } 100%{ filter: drop-shadow(0 0 8px rgba(255,213,46,1)); } }
+
+    .hero{
+      padding: 36px 18px 12px; text-align:center;
+    }
+    .hero p{ margin: 8px auto 0; max-width: 820px; line-height:1.7; color: var(--muted); }
+
+    /* Actions */
+    .actions{ display:flex; align-items:center; gap:12px; justify-content:center; margin-top:16px; flex-wrap:wrap; }
+    .btn{
+      border: 1px solid var(--border); padding:12px 18px; border-radius: 16px; cursor:pointer; font-weight:600; letter-spacing: .3px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; text-decoration:none; color: var(--txt);
+    }
+    .btn:hover{ transform: translateY(-2px); box-shadow: 0 8px 26px rgba(46,233,255,0.18); border-color: rgba(46,233,255,0.45); }
+    .btn.primary{ background: linear-gradient(90deg, rgba(255,213,46,0.15), rgba(46,233,255,0.2)); border-color: rgba(255,213,46,0.4); }
+
+    /* Grid */
+    .grid{ display:grid; gap:18px; padding: 22px 18px 80px; }
+    @media (min-width: 520px){ .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    @media (min-width: 900px){ .grid{ grid-template-columns: repeat(3, minmax(0,1fr)); } }
+
+    /* Card */
+    .card{
+      position:relative; overflow:hidden; border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border:1px solid var(--border); transition: transform .25s ease, box-shadow .25s ease, border-color .2s ease; will-change: transform;
+    }
+    .card:hover{ transform: translateY(-6px); box-shadow: 0 18px 36px rgba(0,0,0,0.35), 0 0 34px rgba(46,233,255,0.25); border-color: rgba(46,233,255,0.45); }
+    .card::before{
+      content:""; position:absolute; inset:-2px; border-radius: 20px; pointer-events:none;
+      background: radial-gradient(300px 140px at var(--mx, 50%) var(--my, 50%), rgba(46,233,255,0.18), transparent 60%);
+      transition: opacity .2s ease; opacity:0;
+    }
+    .card:hover::before{ opacity:1; }
+
+    .media{ aspect-ratio: 16/9; display:block; width:100%; object-fit:cover; background:#000; }
+    .content{ padding:14px 14px 16px; }
+    .title{ margin:8px 0 6px; font-weight:700; letter-spacing:.2px; font-size: clamp(16px, 2.5vw, 20px); }
+    .desc{ color: var(--muted); margin:0 0 12px; font-size:14px; line-height:1.6; }
+    .meta{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+
+    .contact-btn{
+      display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius: 14px; border:1px solid rgba(255,255,255,0.12);
+      background: linear-gradient(90deg, rgba(46,233,255,0.12), rgba(255,213,46,0.14));
+      color: var(--txt); font-weight:600; text-decoration:none; transition: filter .2s ease, transform .2s ease;
+    }
+    .contact-btn:hover{ filter: brightness(1.1); transform: translateY(-1px); }
+
+    /* Footer */
+    footer{
+      border-top:1px solid var(--border); padding:18px; text-align:center; color: var(--muted);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    }
+    .soft-border{ border:1px solid var(--border); border-radius: 18px; }
+
+    /* Floating particles for VFX vibe */
+    .particles{ pointer-events:none; position:fixed; inset:0; overflow:hidden; z-index:0; }
+    .particle{ position:absolute; width:6px; height:6px; border-radius:50%; background: radial-gradient(circle at 35% 35%, var(--yellow), var(--blue)); filter: blur(0.2px);
+      opacity:.6; animation: floatUp linear infinite; }
+    @keyframes floatUp{ from{ transform: translateY(0); } to{ transform: translateY(-120vh); } }
+
+    /* Utility */
+    .wrap{ position:relative; z-index:1; }
+  </style>
+</head>
+<body>
+  <!-- Floating particles background -->
+  <div class="particles" id="particles"></div>
+
+  <header>
+    <div class="container wrap" style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+      <div class="brand">
+        <i class="fa-solid fa-bolt neon" aria-hidden="true"></i>
+        <h1 class="neon" title="VFX Artist">Abdelrhman Othman</h1>
+      </div>
+      <nav style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a class="btn" href="https://www.facebook.com/profile.php?id=61558629363438">facebook</a>
+        <a class="btn" href="graphic.html">Graphics</a>
+        <a class="btn primary" href="index.html" title="Home">Home</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero wrap" id="work">
+    <div class="container soft-border blue-glow" style="border-radius:22px; padding:20px;">
+      <h2 class="neon" style="margin:0 0 6px; font-size: clamp(18px, 3vw, 24px);">Cinematic VFX • Motion Design • Compositing</h2>
+      <p>High-impact visual effects, seamless compositing, and animation crafted for ads, films, and game trailers. Hover the grid for glow. Click the CTA inside any card to contact me.</p>
+      <div class="actions">
+        <a href="tel:01001104262" class="btn"><i class="fa-solid fa-phone"></i> Call: 01001104262</a>
+        <a href="https://wa.me/201032891741" class="btn primary" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <div class="grid container" id="cards"></div>
+  </main>
+
+  <footer id="contact" class="wrap">
+    <div class="container">
+      <div style="display:flex; flex-direction:column; gap:10px; align-items:center;">
+        <div>
+          <a href="tel:01001104262" class="contact-btn yellow-glow"><i class="fa-solid fa-phone"></i> 01001104262</a>
+          <a href="https://wa.me/201032891741" class="contact-btn blue-glow" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> 01032891741</a>
+        </div>
+        <small>© <span id="year"></span> Abdelrhman Othman — VFX Artist</small>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ======= DATA-DRIVEN CARDS (EASY TO DUPLICATE) =======
+    // Duplicate, edit, or paste new objects below to add more cards at any time.
+    // mediaType: 'image' | 'video' . For images, use src like 'assets/shot1.jpg'. For videos, mp4 recommended.
+    const projects = [
+      {
+        mediaType: 'video',
+        src: 'images/vfx/1.mp4',
+        title: 'Urban Pillar Smash',
+        desc: 'A hyper-realistic street scene featuring dynamic destruction — a collapsing pillar shatters on impact with explosive debris and detailed dust simulations.',
+        cta: 'Contact Me'
+      },
+      {
+        mediaType: 'video',
+        src: 'images/vfx/2.mp4',
+        title: 'Balcony Snap — Explosive Street VFX',
+        desc: 'A seamless shot where a character snaps their fingers from a balcony, triggering a cinematic street explosion with shockwave, fire, and debris simulation.',
+        cta: "Let's Talk"
+      },
+      {
+        mediaType: 'video',
+        src: 'images/vfx/3.mp4',
+        title: 'Brand Impact — 3D Destruction for “Anas"',
+        desc: 'A dynamic promotional 3D sequence where a falling pillar shatters on the ground before colliding with the “Anas” logo — fragments explode outward in a striking, cinematic display.',
+        cta: 'Get in Touch'
+      },
+      {
+        mediaType: 'image',
+        src: 'images/vfx/1.jpg',
+        title: 'Batmobile Invasion — Real-World VFX Integration',
+        desc: 'The iconic Batmobile seamlessly composited into a live-action street, blending shadows, reflections, and motion tracking for ultra-realistic presence.',
+        cta: 'Hire Me'
+      },
+      {
+        mediaType: 'image',
+        src: 'images/vfx/2.jpg',
+        title: 'Futuristic Hologram — Immersive VR Display',
+        desc: 'A radiant circular hologram with glowing blue panels, designed for virtual reality environments and enhanced with volumetric light effects.',
+        cta: 'Work With Me'
+      },
+      {
+        mediaType: 'image',
+        src: 'images/vfx/3.jpg',
+        title: 'Virtual Wall Breakthrough — Mixed Reality VFX',
+        desc: 'A fully simulated 3D wall demolition integrated seamlessly with real-world footage, combining dynamic debris, lighting match, and camera tracking.',
+        cta: 'Collaborate'
+      },
+      {
+        mediaType: 'image',
+        src: 'images/vfx/4.jpg',
+        title: 'Glass Tower Detonation — Fire & Debris Simulation',
+        desc: 'A high-intensity explosion tearing through a glass-fronted building, featuring realistic fire plumes, dynamic shattering, and physically accurate debris simulation.',
+        cta: 'Hire Me'
+      },
+      {
+        mediaType: 'image',
+        src: 'images/vfx/5.jpg',
+        title: 'Walking Through Ruins — Photoreal VFX',
+        desc: 'A lone figure moves through a devastated urban landscape, enhanced with ultra-realistic destruction, debris, and atmospheric effects for cinematic impact.',
+        cta: 'Work With Me'
+      },
+      {
+        mediaType: 'image',
+        src: 'images/vfx/6.jpg',
+        title: 'Firestorm Blast — Smoke & Flame Simulation',
+        desc: 'A powerful cinematic explosion with rolling smoke plumes and dynamic fire simulation, crafted for maximum visual impact.',
+        cta: 'Collaborate'
+      },
+      {
+        mediaType: 'image',
+        src: 'images/vfx/7.jpg',
+        title: 'Lamborghini Nightscape — Neon Blue VFX',
+        desc: 'A sleek Lamborghini showcased in deep darkness, enhanced with glowing blue accents and cinematic lighting for a high-end, futuristic feel.',
+        cta: 'Hire Me'
+      },
+      {
+        mediaType: 'image',
+        src: 'images/vfx/8.jpg',
+        title: 'Skull Shatter — Particle Disintegration Effect',
+        desc: 'A cinematic sequence where a falling skull impacts the ground, breaking apart and dissolving into dynamic, flying particles for a dramatic VFX finish.',
+        cta: 'Work With Me'
+      },
+      {
+        mediaType: 'image',
+        src: 'images/vfx/9.jpg',
+        title: 'Wall Fracture — Realistic Explosion Simulation',
+        desc: 'A powerful VFX sequence featuring a wall splitting in half as a highly realistic explosion bursts through, complete with fire, smoke, and debris dynamics.',
+        cta: 'Collaborate'
+      }
+    ];
+
+    // ======= RENDER CARDS =======
+    const grid = document.getElementById('cards');
+    projects.forEach((p) => {
+      // Card wrapper is now a DIV (no navigation on click)
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.setAttribute('role','group');
+      card.setAttribute('aria-label', p.title);
+
+      const wrap = document.createElement('div');
+
+      // Media
+      let media;
+      if(p.mediaType === 'video'){
+        media = document.createElement('video');
+        media.src = p.src;
+        media.className = 'media';
+        media.autoplay = true;
+        media.muted = true;
+        media.loop = true;
+        media.playsInline = true;
+      } else {
+        media = document.createElement('img');
+        media.src = p.src;
+        media.alt = p.title;
+        media.className = 'media';
+        media.loading = 'lazy';
+      }
+      wrap.appendChild(media);
+
+      // Content
+      const content = document.createElement('div');
+      content.className = 'content';
+      const h3 = document.createElement('h3'); h3.className = 'title'; h3.textContent = p.title; content.appendChild(h3);
+      const d = document.createElement('p'); d.className = 'desc'; d.textContent = p.desc; content.appendChild(d);
+
+      const meta = document.createElement('div'); meta.className = 'meta';
+      const cta = document.createElement('a'); cta.className = 'contact-btn'; cta.href = 'https://wa.me/201032891741'; cta.target = '_blank'; cta.rel='noopener';
+      cta.innerHTML = '<i class="fa-solid fa-paper-plane"></i> ' + p.cta; meta.appendChild(cta);
+      const dot = document.createElement('span'); dot.style.width='8px'; dot.style.height='8px'; dot.style.borderRadius='50%'; dot.style.background='radial-gradient(circle at 35% 35%, var(--yellow), var(--blue))'; dot.className='yellow-glow'; meta.appendChild(dot);
+      content.appendChild(meta);
+
+      wrap.appendChild(content);
+      card.appendChild(wrap);
+      grid.appendChild(card);
+
+      // Cursor-follow glow
+      card.addEventListener('mousemove', (e)=>{
+        const rect = card.getBoundingClientRect();
+        const mx = ((e.clientX - rect.left) / rect.width) * 100; // %
+        const my = ((e.clientY - rect.top) / rect.height) * 100; // %
+        card.style.setProperty('--mx', mx+'%');
+        card.style.setProperty('--my', my+'%');
+      });
+    });
+
+    // Year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ======= PARTICLES =======
+    const particles = document.getElementById('particles');
+    const NUM = 32; // tweak count of particles
+    for(let i=0;i<NUM;i++){
+      const p = document.createElement('span');
+      p.className = 'particle';
+      const size = Math.random()*6+3; // 3-9px
+      p.style.width = size+'px'; p.style.height = size+'px';
+      p.style.left = Math.random()*100+'vw';
+      p.style.top = (Math.random()*120+20)+'vh';
+      p.style.animationDuration = (Math.random()*12+10)+'s';
+      p.style.opacity = (Math.random()*0.5+0.35).toFixed(2);
+      particles.appendChild(p);
+    }
+  </script>
+
+  <!--
+  ===================== HOW TO ADD/CLONE CARDS =====================
+  1) Go to the `projects` array above and duplicate any object.
+  2) Set `mediaType` to 'image' or 'video'.
+  3) Put your file path in `src` (e.g., assets/myShot.mp4 or assets/frame.jpg).
+  4) Change title/desc/cta. Save. Done.
+  5) Cards no longer navigate on click. The CTA inside each card links to WhatsApp. You can change that URL as you like.
+  ==================================================================
+  -->
+</body>
+</html>
