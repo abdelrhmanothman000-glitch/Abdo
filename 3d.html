@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Portfolio - Abdelrhman Othman</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link style="color:rgb(30, 126, 252);" rel="icon" type="image/svg+xml" href="images/bolt.svg">
+
+</head>
+
+<style>
+    :root{
+      --bg:#07101a;
+      --panel:#0f1724;
+      --text:#e7f1ff;
+      --muted:#9db6d6;
+      --blue:#4fc3ff;
+      --yellow:#ffd76a;
+      --radius:14px;
+      --gap:18px;
+      --card-h:320px;
+      --accent-glow: 18px;
+      --speed:320ms;
+    }
+    :root[data-theme="light"]{
+      --bg: #f6f9fc;
+      --panel: #ffffff;
+      --text: #07101a;
+      --muted: #5c6b7d;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial;
+      background: radial-gradient(900px 400px at 10% -10%, rgba(79,115,150,0.05), transparent), var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      padding:28px;
+      transition: background var(--speed), color var(--speed);
+    }
+
+    .wrap{ max-width:1200px; margin:0 auto; }
+
+    /* Header */
+    .top{
+      display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:20px;
+    }
+    .brand{ display:flex; gap:12px; align-items:center; }
+    .logo{
+    padding: 10px;
+    text-decoration: none;
+     border-radius:12px; display:grid; place-items:center;
+      background:linear-gradient(135deg,var(--blue), var(--yellow));
+      color:#042233; font-weight:800; box-shadow: 0 18px 40px color-mix(in oklab,var(--blue) 30%, transparent);
+    }
+    h1{ margin:0; font-size:18px; letter-spacing:.2px }
+    p.lead{ margin:2px 0 0; color:var(--muted); font-size:13px }
+
+   
+
+    /* Grid */
+    .grid{
+      
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:var(--gap);
+    }
+    @media (max-width:1000px){ .grid{ grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width:680px){ .grid{ grid-template-columns: 1fr; } }
+
+    /* Card */
+    .card{
+      position:relative; border-radius:var(--radius); overflow:hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:12px; display:flex; flex-direction:column; gap:12px; min-height:var(--card-h);
+      box-shadow: 0 12px 36px color-mix(in oklab, var(--blue) 20%, transparent);
+      transition: transform var(--speed) cubic-bezier(.2,.9,.3,1), box-shadow var(--speed);
+      transform: translateY(20px) scale(.995); opacity:0;
+    }
+    .card.in-view{ transform:none; opacity:1; }
+
+    /* Glow overlay instead of drop shadow */
+    .card::after{
+      content:""; position:absolute; inset:0; border-radius:var(--radius);
+      z-index:0; pointer-events:none;
+      background:
+        radial-gradient(400px 160px at 10% -20%, color-mix(in oklab,var(--blue) 55%, transparent), transparent 40%),
+        radial-gradient(300px 120px at 90% 120%, color-mix(in oklab,var(--blue) 30%, transparent), transparent 60%);
+      filter: blur(var(--accent-glow)); opacity:.6;
+      transition: background var(--speed), filter var(--speed), opacity var(--speed);
+    }
+    .card:hover{ transform:translateY(-8px); box-shadow: 0 24px 60px color-mix(in oklab,var(--yellow) 30%, transparent); }
+    .card:hover::after{
+      background:
+        radial-gradient(400px 160px at 10% -20%, color-mix(in oklab,var(--yellow) 55%, transparent), transparent 40%),
+        radial-gradient(300px 120px at 90% 120%, color-mix(in oklab,var(--blue) 30%, transparent), transparent 60%);
+      filter: blur(calc(var(--accent-glow) * 1.4)); opacity:1;
+    }
+
+    .media{ position:relative; border-radius:10px; overflow:hidden; background:#08121a; flex:1; z-index:1; min-height:160px; }
+    .media img, .media video{ width:100%; height:100%; object-fit:cover; display:block; }
+
+    /* hover pill */
+    .hover-pill{ position:absolute; right:12px; bottom:12px; z-index:3; pointer-events:none;
+      background: linear-gradient(90deg, rgba(0,0,0,0.45), rgba(0,0,0,0.22));
+      padding:8px 10px; border-radius:999px; color:var(--text); font-weight:700; transform:translateY(8px); opacity:0; transition: all 220ms ease;}
+    .card:hover .hover-pill{ transform:none; opacity:1; }
+
+    .meta{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; z-index:2; }
+    .info h3{ margin:0; font-size:15px; font-weight:700; }
+    .info p{ margin:6px 0 0; color:var(--muted); font-size:13px; }
+
+    .tags{ display:flex; gap:8px; align-items:center; }
+    .tag{ display:inline-flex; gap:8px; align-items:center; padding:6px 9px; border-radius:999px; background: rgba(255,255,255,0.02); color:var(--muted); font-size:12px; border:1px solid rgba(255,255,255,0.03); }
+
+    .footer{ display:flex; justify-content:space-between; align-items:center; gap:12px; z-index:2; }
+    .cta{ padding:8px 12px; border-radius:10px; background:linear-gradient(90deg,var(--blue),var(--yellow)); color:#042233; font-weight:800; font-size:13px; text-decoration:none; }
+
+    /* focus styles */
+    .card:focus-within, .card:focus{ outline: 3px solid rgba(79,195,255,0.12); transform:translateY(-6px); }
+
+    /* small */
+    .small{ color:var(--muted); font-size:12px; }
+
+    /* accessibility helper - hide visually but keep for screen readers */
+    .sr-only{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;}
+  </style>
+  
+<body data-theme="dark">
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <a href="index.html" target="_blank" class="logo" ><div  aria-hidden="true">Abdelrhman Othman</div></a>
+        <div>
+          <h1>3D Portfolio — Selected Works</h1>
+          <p class="lead">Modeling • Texturing • Motion — curated samples</p>
+        </div>
+      </div>
+
+      
+      </div>
+    </div>
+
+    <main>
+      <section class="grid" id="gallery">
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <img src="images/3D/1.png" alt="Architectural exterior render">
+            <div class="hover-pill">Texture • PBR Workflow</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Advanced Material</h3>
+              <p>Custom PBR textures built using Substance Painter smart materials.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="Rendered frame">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M4 7h4l2-2h4l2 2h4v12H4z"/><circle cx="12" cy="13" r="3"/></svg>
+                Render
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">Cycles • PBR</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Ask me</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <video src="images/3D/metal3.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            <div class="hover-pill">Turntable • Autoplay</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Ultra-Realistic Material Preview</h3>
+              <p>360° turntable highlighting sculpted details and procedural materials.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="Animation">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 3v18"/><path d="M17 3v18"/></svg>
+                Animation
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">Cycles • 4K</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Text me</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <img src="images/3D/10.webp" alt="Product closeup">
+            <div class="hover-pill">Vehicle • Hard Surface</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Futuristic Aircraft Model</h3>
+              <p>Low-light render with dramatic red glow and balanced white front lighting for a cinematic look.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="Texture">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M20.7 5.3a1 1 0 00-1.4 0L14 10.6 13 11.7 6.3 18.4a4 4 0 01-5.7-5.7L6.3 7.7 7.4 6.6 12 2l1.1 1.1 5.6 5.6a1 1 0 010 1.4z"/></svg>
+                Texture
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">Cycles • PBR • Volumetric Lighting</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Request</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <video src="images/3D/AO-Logo.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            <div class="hover-pill">Animation • Logo</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Neon Logo Reveal</h3>
+              <p>Animated neon sign lighting up in stages on a realistic wall surface for an eye-catching intro.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="VFX">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M12 2v20"/><path d="M2 12h20"/></svg>
+               3D
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">Realtime • 60fps</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Contact</a>
+          </div>
+        </article>
+        <article class="card" tabindex="0">
+          <div class="media">
+            <video src="images/3D/style.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            <div class="hover-pill">Cycles • PBR • 4K</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Realistic Rubik’s Cube Spin</h3>
+              <p>High-detail 3D animation of a colorful Rubik’s Cube rotating in place with accurate reflections and shading.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="VFX">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M12 2v20"/><path d="M2 12h20"/></svg>
+                3D
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">Realtime • 60fps</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Contact</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <img src="images/3D/12.jpg" alt="Environment concept">
+            <div class="hover-pill">Game Asset • Low Poly</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Stylized Cartoon Car Model</h3>
+              <p>Low poly vehicle with playful proportions and clean topology, ideal for real-time rendering.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="Scene">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M12 2l2 4 4 .6-3 2.6.8 4L12 12l-3.8 2.2.8-4L6 6.6 10 6z"/></svg>
+                Game Asset
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">HDRI • Lighting</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Contact</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+
+ <article class="card" tabindex="0">
+          <div class="media">
+            <video src="images/3D/smoth metal.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+            <div class="hover-pill">Simulation • Material</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Melting Metal Cube</h3>
+              <p>High-detail 3D animation of a colorful Rubik’s Cube rotating in place with accurate reflections and shading.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="VFX">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M12 2v20"/><path d="M2 12h20"/></svg>
+             PBR • 4K
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">Realtime • 60fps</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Contact</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+
+    
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <img src="images/3D/16.png" alt="Environment concept">
+            <div class="hover-pill">Render • Game Environment</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Medieval Village Design</h3>
+              <p>Detailed 3D scene of a small medieval village with rustic houses, stone-paved streets, grassy ground, and a central old well surrounded by forest.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="Scene">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M12 2l2 4 4 .6-3 2.6.8 4L12 12l-3.8 2.2.8-4L6 6.6 10 6z"/></svg>
+               3D Scene
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">Cinema 4D</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Contact</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <img src="images/3D/13.png" alt="Environment concept">
+            <div class="hover-pill">Render • Game Environment</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Medieval Village Design</h3>
+              <p>Detailed 3D scene of a small medieval village with rustic houses, stone-paved streets, grassy ground, and a central old well surrounded by forest.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="Scene">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M12 2l2 4 4 .6-3 2.6.8 4L12 12l-3.8 2.2.8-4L6 6.6 10 6z"/></svg>
+               3D Scene
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">Cinema 4D</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Contact</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <img src="images/3D/14.png" alt="Environment concept">
+            <div class="hover-pill">Render • Game Environment</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Medieval Village Design</h3>
+              <p>Detailed 3D scene of a small medieval village with rustic houses, stone-paved streets, grassy ground, and a central old well surrounded by forest.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="Scene">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M12 2l2 4 4 .6-3 2.6.8 4L12 12l-3.8 2.2.8-4L6 6.6 10 6z"/></svg>
+               3D Scene
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">Cinema 4D</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Contact</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <img src="images/3D/15.png" alt="Environment concept">
+            <div class="hover-pill">Render • Game Environment</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Medieval Village Design</h3>
+              <p>Detailed 3D scene of a small medieval village with rustic houses, stone-paved streets, grassy ground, and a central old well surrounded by forest.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="Scene">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M12 2l2 4 4 .6-3 2.6.8 4L12 12l-3.8 2.2.8-4L6 6.6 10 6z"/></svg>
+               3D Scene
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">Cinema 4D</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Contact</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <img src="images/3D/17.png" alt="Environment concept">
+            <div class="hover-pill">Render • Game Environment</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Medieval Village Design</h3>
+              <p>Detailed 3D scene of a small medieval village with rustic houses, stone-paved streets, grassy ground, and a central old well surrounded by forest.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="Scene">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M12 2l2 4 4 .6-3 2.6.8 4L12 12l-3.8 2.2.8-4L6 6.6 10 6z"/></svg>
+               3D Scene
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">Cinema 4D</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Contact</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <img src="images/3D/8.png" alt="Environment concept">
+            <div class="hover-pill">Render • Product Visualization</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Wooden Product with Dynamic Water</h3>
+              <p>High-resolution render of a wooden product surrounded by a floating water ring with detailed droplets and realistic lighting.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="Scene">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M12 2l2 4 4 .6-3 2.6.8 4L12 12l-3.8 2.2.8-4L6 6.6 10 6z"/></svg>
+              PBR Materials
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">Cinema 4D • Physical Render</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Contact</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <img src="images/3D/9.webp" alt="Environment concept">
+            <div class="hover-pill">Render • Cinematic</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Mysterious Glow Scene</h3>
+              <p>Photorealistic scene of a lone figure in deep darkness, bending to grasp a glowing yellow orb reflected on wet tiles.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="Scene">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M12 2l2 4 4 .6-3 2.6.8 4L12 12l-3.8 2.2.8-4L6 6.6 10 6z"/></svg>
+               Physical Render • PBR Materials
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">Cinema 4D</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Contact</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <img src="images/3D/7.png" alt="Environment concept">
+            <div class="hover-pill">Render • Cinematic</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Volumetric Wheat Stalks</h3>
+              <p>Minimalistic black-and-white scene of three wheat stalks swaying gently in the wind, illuminated by dramatic volumetric light.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="Scene">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M12 2l2 4 4 .6-3 2.6.8 4L12 12l-3.8 2.2.8-4L6 6.6 10 6z"/></svg>
+               Physical Render • Volumetric
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">Cinema 4D</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Contact</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <img src="images/3D/6.png" alt="Environment concept">
+            <div class="hover-pill">Render • Environment</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Realistic Forest River Scene</h3>
+              <p>Photorealistic 3D render of a tranquil river cutting through a dense forest, with soft light filtering through the trees.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="Scene">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M12 2l2 4 4 .6-3 2.6.8 4L12 12l-3.8 2.2.8-4L6 6.6 10 6z"/></svg>
+                Scene
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">Physical Render • PBR Materials</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Contact</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <img src="images/3D/5.png" alt="Environment concept">
+            <div class="hover-pill">Render • Environment</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Realistic Mountain Cliff</h3>
+              <p>Highly detailed 3D render of a rugged mountain edge with natural textures and dramatic lighting.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="Scene">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M12 2l2 4 4 .6-3 2.6.8 4L12 12l-3.8 2.2.8-4L6 6.6 10 6z"/></svg>
+               3D Scene
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">Blender • Cycles • PBR Materials</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Contact</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <img src="images/3D/4.png" alt="Environment concept">
+            <div class="hover-pill">Render • Product Visualization</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Photorealistic Empty Glass</h3>
+              <p>High-quality render of an empty water glass placed on luxurious white marble, showcasing clean reflections and fine detail.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="Scene">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M12 2l2 4 4 .6-3 2.6.8 4L12 12l-3.8 2.2.8-4L6 6.6 10 6z"/></svg>
+          Cinema 4D
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">Physical Render • PBR Materials</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Contact</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <img src="images/3D/3.png" alt="Environment concept">
+            <div class="hover-pill">Render • Creative Scene</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Blender Mixed Media Concept</h3>
+              <p>A single 3D scene combining gameplay elements, a lamp, chocolate, and Swiss cheese under unique square and circular lighting.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="Scene">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M12 2l2 4 4 .6-3 2.6.8 4L12 12l-3.8 2.2.8-4L6 6.6 10 6z"/></svg>
+             Blender • Cycles
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">Render • Creative Scene</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Contact</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <img src="images/3D/2.png" alt="Environment concept">
+            <div class="hover-pill">Render • Environment</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Realistic Hill & River Scene</h3>
+              <p>High-detail natural landscape featuring a flowing river and lush terrain, rendered for photoreal quality.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="Scene">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M12 2l2 4 4 .6-3 2.6.8 4L12 12l-3.8 2.2.8-4L6 6.6 10 6z"/></svg>
+             Cinema 4D • Physical Render • PBR Materials
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">HDRI • Lighting</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Contact</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+        <!-- CARD START -->
+        <article class="card" tabindex="0">
+          <div class="media">
+            <img src="images/3D/11.jpg" alt="Environment concept">
+            <div class="hover-pill">Game Asset • Environment</div>
+          </div>
+
+          <div class="meta">
+            <div class="info">
+              <h3>Low-Poly City Design</h3>
+              <p>Complete low-poly city with stylized buildings, roads, lighting, and green spaces optimized for games.</p>
+            </div>
+            <div class="tags">
+              <span class="tag" title="Scene">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M12 2l2 4 4 .6-3 2.6.8 4L12 12l-3.8 2.2.8-4L6 6.6 10 6z"/></svg>
+                3D Scene
+              </span>
+            </div>
+          </div>
+
+          <div class="footer">
+            <div class="small">HDRI • Lighting</div>
+            <a class="cta" href="https://wa.me/201023891741
+" onclick="return false;">Contact</a>
+          </div>
+        </article>
+        <!-- CARD END -->
+
+        
+      </section>
+    </main>
+  </div>
+
+  <script>
+   
+
+    // Entrance animation (staggered)
+    const cards = document.querySelectorAll('.card');
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach((entry, idx)=>{
+        if(entry.isIntersecting){
+          setTimeout(()=> entry.target.classList.add('in-view'), 80 * (idx+1));
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    cards.forEach(c => io.observe(c));
+
+    // Prevent context menu on videos (discourage open in new tab)
+    document.querySelectorAll('video').forEach(v=>{
+      v.addEventListener('contextmenu', e => e.preventDefault());
+      // remove controls and disable fullscreen request
+      v.controls = false;
+      try{ v.requestFullscreen = () => {}; v.webkitRequestFullscreen = () => {}; }catch(e){}
+      // ensure playsinline for mobile
+      v.setAttribute('playsinline','');
+      // ensure muted (autoplay policy)
+      v.muted = true;
+    });
+
+    // Keyboard accessibility: Enter/Space toggles play/pause on card video if exists (no fullscreen)
+    cards.forEach(card=>{
+      card.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          const vid = card.querySelector('video');
+          if(vid){
+            if(vid.paused) vid.play().catch(()=>{});
+            else vid.pause();
+          }
+        }
+      });
+    });
+
+    // Optional: pause videos when offscreen to save CPU
+    const gridVideos = document.querySelectorAll('.card video');
+    const vObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(({isIntersecting, target})=>{
+        if(!isIntersecting) target.pause();
+        else target.play().catch(()=>{});
+      });
+    }, { threshold: 0.35 });
+    gridVideos.forEach(v => vObserver.observe(v));
+  </script>
+</body>
+</html>
